@@ -61,6 +61,12 @@ function App() {
         setIsGameCreated(false);
     }
 
+    useEffect(() => {
+        if (![...hangman].includes('_')) {
+            setIsGameCreated(false);
+        }
+    }, [hangman]);
+
     return (
         <div className="App" style={styles.app}>
             <div className="hangman" style={styles.container}>
