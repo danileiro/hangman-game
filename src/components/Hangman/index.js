@@ -35,7 +35,7 @@ const Hangman = ({ target, attempts, handleSolveHangman, isGameCreated, isLoadin
                         Get response
                     </Button>
                     :
-                    <span style={styles.word}>Hangman Game!</span>
+                    <span style={styles.title}>Hangman Game!</span>
                 }
             </div>
         </div>
@@ -50,6 +50,10 @@ const styles = {
         alignItems: 'center',
     },
     word: {
+        fontSize: '3em',
+        textDecoration: 'bold',
+    },
+    title: {
         fontSize: '5em',
         textDecoration: 'bold',
     },
@@ -61,6 +65,7 @@ const styles = {
     },
     response: {
         marginTop: '3em',
+        textAlign: 'center',
     },
 }
 
