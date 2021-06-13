@@ -1,11 +1,63 @@
 import React from 'react'
+import { Button } from "@material-ui/core";
 
-const Hangman = ({ target }) => {
+const Hangman = ({ target, attempts, handleSolveHangman, isGameCreated }) => {
+    const renderAttempts = (att) => {
+        return (
+            <p style={styles.attempts}>
+                {att.map((el, idx) => (
+                    <React.Fragment key={idx}>
+                        <span style={el.correct ? {} : {color: 'red'}} >{el.letter}</span>
+                        <span>, </span>
+                    </React.Fragment>
+                ))}
+            </p>
+        );
+    };
+
     return (
-        <div>
-            TODO: create view
+        <div style={styles.container} >
+            <div className="word-container">
+                <span style={styles.word}>
+                    {target}
+                </span>
+            </div>
+            <div className="attempts">
+                {renderAttempts(attempts)}
+            </div>
+            <div className="response-btn" style={styles.response}>
+                {(isGameCreated) ? 
+                    <Button onClick={handleSolveHangman} variant='outlined'>
+                        Get response
+                    </Button>
+                    :
+                    <span style={styles.word}>Hangman Game!</span>
+                }
+            </div>
         </div>
     )
+}
+
+const styles = {
+    container: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    word: {
+        fontSize: '5em',
+        textDecoration: 'bold',
+    },
+    attempts: {
+        marginTop: '3em',
+        textAlign: 'center',
+        fontSize: '2em',
+        textDecoration: 'bold',
+    },
+    response: {
+        marginTop: '3em',
+    },
 }
 
 export default Hangman;
