@@ -40,7 +40,6 @@ function App() {
                     setResult(response)
                     setAttempts((attempts) => [...attempts, {letter: guess, correct: response.correct}]);
                     if (response.correct) {
-                        console.log('update hangman text!');
                         const newHangman = joinLetter([...hangman], [...response.hangman])
                         setHangman(newHangman)
                     }
@@ -89,7 +88,10 @@ function App() {
                 />
             </div>
             <div className="footer" style={styles.footer}>
-                <p>WARNING: I do not own the backend used in this demo project</p>
+                <p style={{textAlign: 'center'}}>
+                    WARNING: This page is a frontend to <a href="https://hangman-api.herokuapp.com/api" target="_blank" rel="noopener noreferrer">this</a>. 
+                    I do not own the backend used in this demo project.
+                </p>
                 <span>
                     Made by <a href={PROJECT_AUTHOR} target="_blank" rel="noopener noreferrer">Danilo</a> | 
                     Code is <a href={PROJECT_REPO} target="_blank" rel="noopener noreferrer">here</a>
@@ -125,7 +127,7 @@ const styles = {
         alignItems: 'center',
         marginBottom: '1em',
         color: 'gray',
-        fontSize: '1.5em',
+        fontSize: '1em',
     }
 }
 
