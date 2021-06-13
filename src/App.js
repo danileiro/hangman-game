@@ -1,54 +1,82 @@
 import { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
-import { createGame, sendGuess } from "./utils/api";
+import { createGame, sendGuess, getHint, getTarget } from "./utils/api";
 import Hangman from './components/Hangman';
+import Controls from './components/Controls';
 
 function App() {
-    const [target, setTarget] = useState('');
+    const [hangman, setHangman] = useState('');
     const [guess, setGuess] = useState('');
     const [token, setToken] = useState('');
+    const [result, setResult] = useState({});
+    const [attempts, setAttempts] = useState([]);
+    const [hint, setHint] = useState();
+    const [isGameCreated, setIsGameCreated] = useState(false);
 
     const handleCreateGame = () => {
-        createGame(setTarget, setToken);
+        createGame(setHangman, setToken);
+        setIsGameCreated(true);
+        setAttempts([]);
     };
 
-    const handleInputChange = (e) => {
-        const { value } = e.target;
-        if (value.match(/^[a-zA-Z ]{0,1}$/)) {
-            setGuess(value);
-        }
+
+    const joinLetter = (arr, response) => {
+        const newArray = arr
+        newArray.map((el, i) => {
+            if (response[i] !== '_') {
+                newArray[i] = response[i];
+            }
+        })
+        return newArray;
     }
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if (guess !== '' && guess !== ' ') {
-            // TODO: send guess to API
-            console.log(guess);
-            sendGuess(token, guess);
+            let atps = attempts.map((at) => at.letter);
+            if (!atps.includes(guess)) {
+                sendGuess(token, guess, (response) => {
+                    setResult(response)
+                    setAttempts((attempts) => [...attempts, {letter: guess, correct: response.correct}]);
+                    if (response.correct) {
+                        console.log('update hangman text!');
+                        const newHangman = joinLetter([...hangman], [...response.hangman])
+                        setHangman(newHangman)
+                    }
+                });
+            }
         }
+        setGuess('');
+    }
+
+    // Due to CORS policy, this feature can't be used in the browser
+    const handleGetHint = () => {
+        getHint(token, setHint);
+    }
+
+    const handleSolveHangman = () => {
+        getTarget(token, setHangman);
+        setIsGameCreated(false);
     }
 
     return (
         <div className="App" style={styles.app}>
             <div className="hangman" style={styles.container}>
-                <Hangman target={target} />
+                <Hangman
+                    target={hangman}
+                    attempts={attempts}
+                    handleSolveHangman={handleSolveHangman}
+                    isGameCreated={isGameCreated}
+                />
             </div>
             <div className='game-controls' style={styles.container}>
-                {target ?
-                    <form noValidate autoComplete='off' onSubmit={handleFormSubmit}>
-                        <TextField 
-                            label='Guess a letter'
-                            variant='outlined'
-                            value={guess}
-                            onChange={handleInputChange}
-                        />
-                    </form>
-                :
-                    <Button onClick={handleCreateGame} variant='outlined'>
-                        Create Game
-                    </Button>
-                }
-
+                <Controls 
+                    isGameCreated={isGameCreated}
+                    handleFormSubmit={handleFormSubmit}
+                    guess={guess}
+                    setGuess={setGuess}
+                    handleCreateGame={handleCreateGame}
+                    handleGetHint={handleGetHint}
+                />
             </div>
         </div>
     );
@@ -69,6 +97,7 @@ const styles = {
     container: {
         flex: '1',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
     }
