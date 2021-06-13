@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Hangman Game Demo
+
+Frontend built on top of [despo api](https://github.com/despo/hangman)
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
