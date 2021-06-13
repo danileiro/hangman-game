@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress } from "@material-ui/core";
 
-const Hangman = ({ target, attempts, handleSolveHangman, isGameCreated }) => {
+const Hangman = ({ target, attempts, handleSolveHangman, isGameCreated, isLoading }) => {
     const renderAttempts = (att) => {
         return (
             <p style={styles.attempts}>
@@ -18,9 +18,13 @@ const Hangman = ({ target, attempts, handleSolveHangman, isGameCreated }) => {
     return (
         <div style={styles.container} >
             <div className="word-container">
-                <span style={styles.word}>
-                    {target}
-                </span>
+                {(isLoading) ?
+                    <CircularProgress />
+                    :
+                    <span style={styles.word}>
+                        {target}
+                    </span>
+                }
             </div>
             <div className="attempts">
                 {renderAttempts(attempts)}

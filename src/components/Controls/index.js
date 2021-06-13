@@ -19,6 +19,7 @@ const Controls = ({ isGameCreated, handleFormSubmit, guess, setGuess, handleCrea
                             variant='outlined'
                             value={guess}
                             onChange={handleInputChange}
+                            autoFocus
                         />
                     </form>
                     {/* <Button onClick={handleGetHint} style={{margin:'5px'}} variant='outlined'>
