@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createGame, sendGuess, getHint, getTarget } from "./utils/api";
 import { PROJECT_AUTHOR, PROJECT_REPO } from "./utils/config";
 import Hangman from './components/Hangman';
@@ -12,9 +12,10 @@ function App() {
     const [attempts, setAttempts] = useState([]);
     const [hint, setHint] = useState();
     const [isGameCreated, setIsGameCreated] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
     const handleCreateGame = () => {
-        createGame(setHangman, setToken);
+        setIsLoading(true);
+        createGame(setHangman, setToken, setIsLoading);
         setIsGameCreated(true);
         setAttempts([]);
     };
@@ -55,7 +56,8 @@ function App() {
     }
 
     const handleSolveHangman = () => {
-        getTarget(token, setHangman);
+        setIsLoading(true)
+        getTarget(token, setHangman, setIsLoading);
         setIsGameCreated(false);
     }
 
@@ -67,6 +69,7 @@ function App() {
                     attempts={attempts}
                     handleSolveHangman={handleSolveHangman}
                     isGameCreated={isGameCreated}
+                    isLoading={isLoading}
                 />
             </div>
             <div className='game-controls' style={styles.container}>
