@@ -3,11 +3,12 @@ import { BASE_URL } from './config';
 const api = axios.create({
     baseURL: BASE_URL
 });
-export const createGame = (setHangman, setToken) => {
+export const createGame = (setHangman, setToken, setIsLoading) => {
     api.post("/hangman")
         .then((res) => {
             setHangman(res.data.hangman);
             setToken(res.data.token);
+            setIsLoading(false)
         })
         .catch((err) => console.log(err));
 }
@@ -20,10 +21,11 @@ export const sendGuess = (token, guess, callback) => {
         .catch((err) => console.log(err));
 }
 
-export const getTarget = (token, setTarget) => {
+export const getTarget = (token, setTarget, setIsLoading) => {
     api.get(`/hangman?token=${token}`)
         .then((res) => {
             setTarget(res.data.solution);
+            setIsLoading(false);
         })
         .catch((err) => console.log(err));
 }
