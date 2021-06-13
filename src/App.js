@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createGame, sendGuess, getHint, getTarget } from "./utils/api";
+import { PROJECT_AUTHOR, PROJECT_REPO } from "./utils/config";
 import Hangman from './components/Hangman';
 import Controls from './components/Controls';
 
@@ -78,6 +79,13 @@ function App() {
                     handleGetHint={handleGetHint}
                 />
             </div>
+            <div className="footer" style={styles.footer}>
+                <p>WARNING: I do not own the backend used in this demo project</p>
+                <span>
+                    Made by <a href={PROJECT_AUTHOR} target="_blank" rel="noopener noreferrer">Danilo</a> | 
+                    Code is <a href={PROJECT_REPO} target="_blank" rel="noopener noreferrer">here</a>
+                </span>
+            </div>
         </div>
     );
 }
@@ -100,6 +108,15 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    footer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginBottom: '1em',
+        color: 'gray',
+        fontSize: '1.5em',
     }
 }
 
